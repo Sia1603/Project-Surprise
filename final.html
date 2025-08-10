@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rakshabandhan Special</title>
+<style>
+    body {
+        background-color: #2f2f2f;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    .flip-card {
+        background-color: transparent;
+        width: 50%;
+        
+        aspect-ratio: 4/3;
+        perspective: 1000px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 1.8s;
+        border-radius: 20px;
+        transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .flip-card-front img {
+        width: 100%;
+        height: auto;
+        border-radius:20px;
+        object-fit: cover;
+    }
+
+    .flip-card-back {
+        background: linear-gradient(to right, #3e2be4, aqua, #1a6550, green);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .flip-card-back > div {
+        height: 95%;
+        width: 96%;
+        position: relative;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(89, 131, 83, 0.09);
+        backdrop-filter: blur(120px);
+    }
+
+    .flip-card-back h1 {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 18px;
+        font-weight: bolder;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .flip-card-back h2 {
+        font-size: 16px;
+        font-family: 'Times New Roman', Times, serif;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    /* Buttons wrapper */
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+        position: relative;
+        height: 50px;
+    }
+
+    .flip-card-back button {
+        padding: 8px 15px;
+        border: none;
+        background: #fff;
+        color: #333;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    }
+
+    .flip-card-back button:hover {
+        background-image: linear-gradient(to right, #562be4, #37caaa);
+        transition: 0.2s linear;
+    }
+
+    #nobtn {
+        position: absolute;
+    }
+</style>
+</head>
+<body>
+
+<div class="flip-card">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img src="assets/rakhi.jpg" alt="rakhi">
+        </div>
+        <div class="flip-card-back">
+            <div>
+                <h1>HAPPY RAKSHABANDHAN TO ALL THE CALM AND CHAOS OF MY LIFE!!</h1>
+                <h2>Do you guys love your sister?</h2>
+                <div class="buttons">
+                    <button id="yesbtn">Yes!</button>
+                    <button id="nobtn">No!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const yesbtn = document.getElementById("yesbtn");
+    const nobtn  = document.getElementById("nobtn");
+
+    let repelActive = true; // control flag
+
+    yesbtn.addEventListener("click", () => {
+        repelActive = false; // stop repelling when Yes is clicked
+        alert("Aww, that's so sweet, I know you guys love me! ❤️");
+        nobtn.style.left = "auto";
+        nobtn.style.top = "auto"; // reset position
+    });
+
+    function handleRepel(clientX, clientY) {
+        if (!repelActive) return;
+
+        const container = nobtn.closest(".buttons");
+        const cardRect = container.getBoundingClientRect();
+        const rect = nobtn.getBoundingClientRect();
+
+        const btnX = rect.left + rect.width / 2;
+        const btnY = rect.top + rect.height / 2;
+
+        const distX = clientX - btnX;
+        const distY = clientY - btnY;
+
+        const distance = Math.sqrt(distX ** 2 + distY ** 2);
+
+        if (distance < 80) {
+            const moveX = (distX / distance) * 80;
+            const moveY = (distY / distance) * 80;
+
+            let newLeft = rect.left - cardRect.left - moveX;
+            let newTop = rect.top - cardRect.top - moveY;
+
+            newLeft = Math.max(0, Math.min(cardRect.width - rect.width, newLeft));
+            newTop = Math.max(0, Math.min(cardRect.height - rect.height, newTop));
+
+            nobtn.style.left = `${newLeft}px`;
+            nobtn.style.top = `${newTop}px`;
+        }
+    }
+
+    document.addEventListener("mousemove", (e) => {
+        handleRepel(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("touchmove", (e) => {
+        if (e.touches.length > 0) {
+            handleRepel(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    });
+</script>
+
+</body>
+</html>

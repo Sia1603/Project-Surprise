@@ -1,0 +1,199 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #333232;
+    
+    
+}
+
+
+.flip-card {
+    background-color: transparent;
+    width: 95vw;
+    height:98vh;
+    /*limits the largest size*/
+    aspect-ratio: 4/3;
+    /* maintains a 4:3 aspect ratio */
+    perspective: 1000px;
+   
+    margin-left: 50px;
+    /* centers the card */
+    border-radius: 20px;
+    /* optional rounded edges */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    /* optional shadow */
+}
+
+.flip-card-inner {
+    position: absolute;
+    width: 95%;
+    height: 90%;
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    text-align: center;
+    transition: transform 1.8s;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover/contain;
+    /* height: auto;
+    display: block; */
+}
+
+.flip-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #3e2be4,aqua , #1a6550,green);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: -1;
+}
+
+/* .flip-card-back > div{
+    height:95%;
+    width:96%;
+    position:relative;
+    left:0;
+    padding:50px;;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba(89, 131, 83, 0.09);
+    backdrop-filter: blur(20px );
+    border-radius: 10px;
+} */
+ .flip-card-back > div {
+    position: relative;
+    height: 95%;
+    width: 96%;
+    padding: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    overflow: hidden; /* ensure blur stays inside */
+    backdrop-filter: blur(20px);
+    z-index: 1;
+}
+
+.flip-card-back > div::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(89, 131, 83, 0.09);
+    backdrop-filter: blur(20px); /* your original blur */
+    border-radius: 10px;
+    z-index: 0;
+}
+
+.flip-card-back > div * {
+    position: relative;
+    z-index: 1; /* keep text above blur layer */
+}
+
+
+
+.flip-card-back h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: clamp(14px, 18px);
+    /* scales text */
+    font-weight: bolder;
+    margin-bottom: 10px;
+    text-align: center;
+    position:relative;
+    z-index: -1;
+    top:20%;
+}
+
+.flip-card-back h2 {
+    font-size: clamp(16px, 18px);
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 15px;
+    text-align: center;
+    position:relative;
+    z-index: -1;
+    top:40%;
+}
+
+.flip-card-back button {
+    margin: 5px;
+    padding: 8px 15px;
+    border: none;
+    background: #fff;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    height:6%;
+    width: 130px;
+    font-size: 20px;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    position: relative;
+    top:55%;
+}
+
+.flip-card-back button:hover {
+    background-image:linear-gradient(to right, #562be4, #37caaa); 
+    transition:0.2s linear; 
+}
+
+#yesBtn {
+    position: relative;
+    left: -520px;
+    bottom: 20px;
+}
+
+#noBtn {
+    right: 20px;
+    bottom: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .flip-card {
+        width: 100vw;
+        height: 100vh;
+    }
+    .flip-card-inner {
+        width: 100%;
+        height: 100%;
+    }
+    .flip-card-back h1, .flip-card-back h2 {
+        font-size: 24px;
+    }
+    .flip-card-back button {
+        width: 80%;
+        font-size: 16px;
+    }
+    
+}
